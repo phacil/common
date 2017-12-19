@@ -1,0 +1,24 @@
+{
+    "name": "phacil/common",
+    "description": "Phacil PHP Framework Common Classes",
+    "license": "MIT",
+    "keywords": ["php", "framework", "phacil", "common"],
+    "authors": [
+        {
+            "name": "Alisson Nascimento",
+            "email": "alisson.sa.nascimento@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Phacil\\Common\\": "src/"	
+        },
+        "files": [
+            "src/inc/functions.inc.php",
+            "src/inc/helpers.inc.php"
+        ]
+    }
+}
