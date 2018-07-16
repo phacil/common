@@ -167,7 +167,7 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
     }
     
     public function checkFinal(){
-        if(!$this->final){
+        if($this->final){
             throw new \Exception("This collection doesn't support new elements");
         }
     }
