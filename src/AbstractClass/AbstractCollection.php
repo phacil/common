@@ -19,6 +19,7 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
     //protected $elements = [];
     protected $type;
     protected $final = false;
+    protected $elements = [];
 
     public function __construct(Array $array = []) {
 
