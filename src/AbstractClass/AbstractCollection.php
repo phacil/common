@@ -103,7 +103,7 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
 
     public function set($arg1, $arg2 = null) {
         $this->checkFinal();
-        if (!$arg2) {
+        if (func_num_args() == 1) {
             if ($this->checkType($this->type, $arg1)) {
                 $this->elements[] = $arg1;
             } else {
