@@ -156,10 +156,10 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         
     }
 	
-    public function set($name, $value)
+    public function set($key, $value)
     {   
         $this->checkFinal();
-        $parsed = explode('.', $name);
+        $parsed = explode('.', $key);
         $result =& $this->elements;
         while (count($parsed) > 1) {
             $next = array_shift($parsed);
@@ -170,16 +170,16 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         }
         
         if (func_num_args() == 1) {
-            if ($this->checkType($this->type, $name)) {
+            if ($this->checkType($this->type, $key)) {
                 $result[] = array_shift($parsed);
             } else {
-                throw new \Exception('valor ' . $name . ' não condiz com o tipo ' . $this->type);
+                throw new \Exception('valor ' . $key . ' não condiz com o tipo ' . $this->type);
             }
         } else {
-            if ($this->checkType($this->type, $name)) {
+            if ($this->checkType($this->type, $key)) {
                 $result[array_shift($parsed)] = $value;
             } else {
-                throw new \Exception('valor referente a chave ' . $name . ' não condiz com o tipo ' . $this->type);
+                throw new \Exception('valor referente a chave ' . $key . ' não condiz com o tipo ' . $this->type);
             }
         }
         
@@ -187,7 +187,7 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         return $this;
     }
     
-    public function check($name)
+    public function check($key)
     {
         $parsed = explode('.', $key);
         $find = true;
@@ -203,10 +203,10 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         return true;
     }
 
-    public function delete($name)
+    public function delete($key)
     {
         $this->checkFinal();
-        $parsed = explode('.', $name);
+        $parsed = explode('.', $key);
         $result =& $this->elements;
         while (count($parsed) > 1) {
             $next = array_shift($parsed);
