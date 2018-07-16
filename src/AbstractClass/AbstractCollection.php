@@ -88,12 +88,12 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
     }
 
 //Checking if the cursor is at a valid item
-    public function check() {
-        if (!is_null($this->key())) {
+    public function check($key) {
+        if (isset($this->elements[$key])) {
             return true;
-        } else {
-            return false;
         }
+        return false;
+        
     }
 
 //Returning object for given posistion
