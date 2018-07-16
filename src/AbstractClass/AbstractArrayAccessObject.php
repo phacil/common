@@ -15,25 +15,23 @@ namespace Phacil\Common\AbstractClass;
  */
 abstract class AbstractArrayAccessObject implements \ArrayAccess
 {
-    protected $container;
+    protected $elements;
     
-    abstract protected function container();
-
     public function offsetExists($offset)
     {
-        return isset($this->{$this->container}[$offset]);
+        return isset($this->elements[$offset]);
     }
 
     public function offsetGet($offset)
     {
-        return isset($this->{$this->container}[$offset]) ? $this->elements[$offset] : null;
+        return isset($this->elements[$offset]) ? $this->elements[$offset] : null;
     }
 
     public function offsetSet($offset, $value)
     {
         if (is_null($offset))
         {
-            $this->{$this->container}[] = $value;
+            $this->elements[] = $value;
         } else
         {
             $this->elements[$offset] = $value;
@@ -43,6 +41,6 @@ abstract class AbstractArrayAccessObject implements \ArrayAccess
     public function offsetUnset($offset)
     {
 
-        unset($this->{$this->container}[$offset]);
+        unset($this->elements[$offset]);
     }
 }

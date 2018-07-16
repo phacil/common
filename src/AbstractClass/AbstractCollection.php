@@ -2,7 +2,7 @@
 
 namespace Phacil\Common\AbstractClass;
 
-abstract class AbstractCollection extends AbstractArrayAccessObject implements \IteratorAggregate, \Countable, \ArrayAccess {
+abstract class AbstractCollection implements \IteratorAggregate, \Countable{
 
     const TYPE_ARRAY = 'array';
     const TYPE_BOOLEAN = 'boolean';
@@ -16,12 +16,12 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
     const TYPE_STRING = 'string';
     const TYPE_MIXED = 'mixed';
 
-    protected $elements = [];
+    //protected $elements = [];
     protected $type;
     protected $final = false;
 
     public function __construct(Array $array = []) {
-        
+
         $final = $this->final;
         $this->final = false;
         foreach ($array as $key => $value) {
@@ -29,10 +29,6 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
         }
         $this->final = $final;
         return $this;
-    }
-
-    protected function container() {
-        $this->container = 'elements';
     }
 
     protected function checkType($type, $value) {
@@ -80,44 +76,9 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
         return $this;
     }
 
-    public function remove($key) {
-        if (array_key_exists($key, $this->elements)) {
-            unset($this->elements[$key]);
-            return $this;
-        }
-    }
-
-//Checking if the cursor is at a valid item
-    public function check($key) {
-        if (isset($this->elements[$key])) {
-            return true;
-        }
-        return false;
-        
-    }
-
-//Returning object for given posistion
-    public function get($key) {
-        return $this->elements[$key];
-    }
-
-    public function set($arg1, $arg2 = null) {
+    protected function clean() {
         $this->checkFinal();
-        if (func_num_args() == 1) {
-            if ($this->checkType($this->type, $arg1)) {
-                $this->elements[] = $arg1;
-            } else {
-                throw new \Exception('valor ' . $arg1 . ' não condiz com o tipo ' . $this->type);
-            }
-        } else {
-            if ($this->checkType($this->type, $arg2)) {
-                $this->elements[$arg1] = $arg2;
-            } else {
-                throw new \Exception('valor referente a chave ' . $arg1 . ' não condiz com o tipo ' . $this->type);
-            }
-        }
-
-        return $this;
+        $this->elements = [];
     }
 
     public function filter(callable $function) {
@@ -161,15 +122,101 @@ abstract class AbstractCollection extends AbstractArrayAccessObject implements \
         $this->rewind();
         return false;
     }
-    
+
     public function getElements() {
         return $this->elements;
     }
-    
-    public function checkFinal(){
-        if($this->final){
+
+    public function checkFinal() {
+        if ($this->final) {
             throw new \Exception("This collection doesn't support new elements");
         }
+    }
+    
+    public function get($key)
+    {
+        $parsed = explode('.', $key);
+        $find = true;
+        $result = $this->elements;
+        while ($parsed) {
+            $next = array_shift($parsed);
+            if (isset($result[$next])) {
+                $result = $result[$next];
+            } else {
+                $find = false;
+                break;
+            }
+        }
+        
+        if($find){
+            return $result;
+        }else{
+            trigger_error('Key doesn\t exists');
+        }
+        
+    }
+	
+    public function set($name, $value)
+    {   
+        $this->checkFinal();
+        $parsed = explode('.', $name);
+        $result =& $this->elements;
+        while (count($parsed) > 1) {
+            $next = array_shift($parsed);
+            if ( ! isset($result[$next]) || ! is_array($result[$next])) {
+                $result[$next] = [];
+            }
+            $result =& $result[$next];
+        }
+        
+        if (func_num_args() == 1) {
+            if ($this->checkType($this->type, $name)) {
+                $result[] = array_shift($parsed);
+            } else {
+                throw new \Exception('valor ' . $name . ' não condiz com o tipo ' . $this->type);
+            }
+        } else {
+            if ($this->checkType($this->type, $name)) {
+                $result[array_shift($parsed)] = $value;
+            } else {
+                throw new \Exception('valor referente a chave ' . $name . ' não condiz com o tipo ' . $this->type);
+            }
+        }
+        
+        //$result[array_shift($parsed)] = $value;
+        return $this;
+    }
+    
+    public function check($name)
+    {
+        $parsed = explode('.', $key);
+        $find = true;
+        $result = $this->elements;
+        while ($parsed) {
+            $next = array_shift($parsed);
+            if (isset($result[$next])) {
+                $result = $result[$next];
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public function delete($name)
+    {
+        $this->checkFinal();
+        $parsed = explode('.', $name);
+        $result =& $this->elements;
+        while (count($parsed) > 1) {
+            $next = array_shift($parsed);
+            if ( ! isset($result[$next]) || ! is_array($result[$next])) {
+                $result[$next] = [];
+            }
+            $result =& $result[$next];
+        }
+        unset($result[array_shift($parsed)]);
+        return $this;
     }
 
 }
