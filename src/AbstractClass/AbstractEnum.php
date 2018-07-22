@@ -1,9 +1,12 @@
 <?php
+
 /**
  * @link    http://github.com/myclabs/php-enum
  * @license http://www.opensource.org/licenses/mit-license.php MIT (see the LICENSE file)
  */
+
 namespace Phacil\Common\AbstractClass;
+
 /**
  * Base Enum class
  *
@@ -36,25 +39,30 @@ abstract class AbstractEnum {
      *
      * @throws \UnexpectedValueException if incompatible type is given.
      */
-    public function __construct($key) {
-        if (!$this->isValidKey($key)) {
+    public function __construct($key)
+    {
+        if (!$this->isValidKey($key))
+        {
             throw new UnexpectedValueException("Key '$key' is not part of the enum " . get_called_class());
         }
         $this->key = $key;
     }
 
-    public function getKey() {
+    public function getKey()
+    {
         return $this->key;
     }
 
-    public function getValue() {
+    public function getValue()
+    {
         return static::toArray()[$this->key];
     }
 
     /**
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return (string) $this->getValue();
     }
 
@@ -65,7 +73,8 @@ abstract class AbstractEnum {
      *
      * @return bool True if Enums are equal, false if not equal
      */
-    final public function equals(AbstractEnum $enum) {
+    final public function equals(AbstractEnum $enum)
+    {
         return $this->getKey() === $enum->getKey() && get_called_class() == get_class($enum);
     }
 
@@ -74,7 +83,8 @@ abstract class AbstractEnum {
      *
      * @return array
      */
-    public static function keys() {
+    public static function keys()
+    {
         return array_keys(static::toArray());
     }
 
@@ -83,10 +93,12 @@ abstract class AbstractEnum {
      *
      * @return static[] Constant name in key, Enum instance in value
      */
-    public static function values() {
+    public static function values()
+    {
         $values = array();
 
-        foreach (static::toArray() as $key => $value) {
+        foreach (static::toArray() as $key => $value)
+        {
             $values[$key] = new static($value);
         }
 
@@ -98,9 +110,11 @@ abstract class AbstractEnum {
      *
      * @return array Constant name in key, constant value in value
      */
-    public static function toArray() {
+    public static function toArray()
+    {
         $class = get_called_class();
-        if (!array_key_exists($class, static::$cache)) {
+        if (!array_key_exists($class, static::$cache))
+        {
             $reflection = new ReflectionClass($class);
             static::$cache[$class] = $reflection->getConstants();
         }
@@ -113,10 +127,11 @@ abstract class AbstractEnum {
      *
      * @return array Constant name in key, constant value in value
      */
-    public static function toInverseArray() {
+    public static function toInverseArray()
+    {
         return array_flip(self::toArray());
     }
-    
+
     /**
      * Check if is valid enum value
      *
@@ -124,7 +139,8 @@ abstract class AbstractEnum {
      *
      * @return bool
      */
-    public static function isValid($value) {
+    public static function isValid($value)
+    {
         return in_array($value, static::toArray(), true);
     }
 
@@ -135,7 +151,8 @@ abstract class AbstractEnum {
      *
      * @return bool
      */
-    public static function isValidKey($key) {
+    public static function isValidKey($key)
+    {
         $array = static::toArray();
 
         return isset($array[$key]);
@@ -148,7 +165,8 @@ abstract class AbstractEnum {
      *
      * @return mixed
      */
-    public static function search($value) {
+    public static function search($value)
+    {
         return array_search($value, static::toArray(), true);
     }
 
@@ -161,9 +179,11 @@ abstract class AbstractEnum {
      * @return static
      * @throws \BadMethodCallException
      */
-    public static function __callStatic($name, $arguments) {
+    public static function __callStatic($name, $arguments)
+    {
         $array = static::toArray();
-        if (isset($array[$name])) {
+        if (isset($array[$name]))
+        {
             return new static($array[$name]);
         }
 

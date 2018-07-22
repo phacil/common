@@ -1,6 +1,7 @@
 <?php
 
 namespace Phacil\Common\Classes;
+
 use Phacil\Common\AbstractClass\AbstractCollection;
 
 /**
@@ -8,7 +9,8 @@ use Phacil\Common\AbstractClass\AbstractCollection;
  *
  * @author alisson
  */
-class Collection extends AbstractCollection
-{
+class Collection extends AbstractCollection {
+
     protected $type = self::TYPE_MIXED;
+
 }

@@ -2,7 +2,7 @@
 
 namespace Phacil\Common\AbstractClass;
 
-abstract class AbstractCollection implements \IteratorAggregate, \Countable{
+abstract class AbstractCollection implements \IteratorAggregate, \Countable {
 
     const TYPE_ARRAY = 'array';
     const TYPE_BOOLEAN = 'boolean';
@@ -21,19 +21,23 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
     protected $final = false;
     protected $elements = [];
 
-    public function __construct(Array $array = []) {
+    public function __construct(Array $array = [])
+    {
 
         $final = $this->final;
         $this->final = false;
-        foreach ($array as $key => $value) {
+        foreach ($array as $key => $value)
+        {
             $this->set($key, $value);
         }
         $this->final = $final;
         return $this;
     }
 
-    protected function checkType($type, $value) {
-        switch ($type) {
+    protected function checkType($type, $value)
+    {
+        switch ($type)
+        {
             case 'array':
                 return is_array($value);
             case 'bool':
@@ -66,46 +70,57 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         }
     }
 
-    public function add($arg1, $arg2 = null) {
+    public function add($arg1, $arg2 = null)
+    {
         $this->checkFinal();
-        if ($arg2 && array_key_exists($arg1, $this->elements)) {
+        if ($arg2 && array_key_exists($arg1, $this->elements))
+        {
             throw new Exception('key already exists!');
-        } else {
+        } else
+        {
             $this->set($arg1, $arg2);
         }
 
         return $this;
     }
 
-    protected function clean() {
+    protected function clean()
+    {
         $this->checkFinal();
         $this->elements = [];
     }
 
-    public function filter(callable $function) {
+    public function filter(callable $function)
+    {
         $class = get_class($this);
         return new $class(array_filter($this->elements, $function));
     }
 
-    public function each(callable $function) {
+    public function each(callable $function)
+    {
 
-        foreach ($this->elements as $value) {
+        foreach ($this->elements as $value)
+        {
             $function($value);
         }
         return $this;
     }
 
-    public function getIterator() {
+    public function getIterator()
+    {
         return new \ArrayIterator($this->elements);
     }
 
-    public function count() {
+    public function count()
+    {
         return count($this->elements);
     }
 
     //Checking if the collection is empty or not
-    public function isEmpty() {
-        if ($this->count() < 1) {
+    public function isEmpty()
+    {
+        if ($this->count() < 1)
+        {
             return true;
         }
 
@@ -113,9 +128,12 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
     }
 
     //Checking if a given object exists in collection
-    public function contains($obj) {
-        foreach ($this->array_elements as $element) {
-            if ($element === $obj) {
+    public function contains($obj)
+    {
+        foreach ($this->array_elements as $element)
+        {
+            if ($element === $obj)
+            {
                 $this->rewind();
                 return true;
             }
@@ -124,80 +142,98 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
         return false;
     }
 
-    public function getElements() {
+    public function getElements()
+    {
         return $this->elements;
     }
 
-    public function checkFinal() {
-        if ($this->final) {
+    public function checkFinal()
+    {
+        if ($this->final)
+        {
             throw new \Exception("This collection doesn't support new elements");
         }
     }
-    
+
     public function get($key)
     {
         $parsed = explode('.', $key);
         $find = true;
         $result = $this->elements;
-        while ($parsed) {
+        while ($parsed)
+        {
             $next = array_shift($parsed);
-            if (isset($result[$next])) {
+            if (isset($result[$next]))
+            {
                 $result = $result[$next];
-            } else {
+            } else
+            {
                 $find = false;
                 break;
             }
         }
-        
-        if($find){
+
+        if ($find)
+        {
             return $result;
-        }else{
+        } else
+        {
             trigger_error('Key doesn\t exists');
         }
-        
     }
-	
+
     public function set($key, $value)
-    {   
+    {
         $this->checkFinal();
         $parsed = explode('.', $key);
-        $result =& $this->elements;
-        while (count($parsed) > 1) {
+        $result = & $this->elements;
+        while (count($parsed) > 1)
+        {
             $next = array_shift($parsed);
-            if ( ! isset($result[$next]) || ! is_array($result[$next])) {
+            if (!isset($result[$next]) || !is_array($result[$next]))
+            {
                 $result[$next] = [];
             }
-            $result =& $result[$next];
+            $result = & $result[$next];
         }
-        
-        if (func_num_args() == 1) {
-            if ($this->checkType($this->type, $key)) {
+
+        if (func_num_args() == 1)
+        {
+            if ($this->checkType($this->type, $key))
+            {
                 $result[] = array_shift($parsed);
-            } else {
+            } else
+            {
                 throw new \Exception('valor ' . $key . ' não condiz com o tipo ' . $this->type);
             }
-        } else {
-            if ($this->checkType($this->type, $key)) {
+        } else
+        {
+            if ($this->checkType($this->type, $key))
+            {
                 $result[array_shift($parsed)] = $value;
-            } else {
+            } else
+            {
                 throw new \Exception('valor referente a chave ' . $key . ' não condiz com o tipo ' . $this->type);
             }
         }
-        
+
         //$result[array_shift($parsed)] = $value;
         return $this;
     }
-    
+
     public function check($key)
     {
         $parsed = explode('.', $key);
         $find = true;
         $result = $this->elements;
-        while ($parsed) {
+        while ($parsed)
+        {
             $next = array_shift($parsed);
-            if (isset($result[$next])) {
+            if (isset($result[$next]))
+            {
                 $result = $result[$next];
-            } else {
+            } else
+            {
                 return false;
             }
         }
@@ -208,13 +244,15 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable{
     {
         $this->checkFinal();
         $parsed = explode('.', $key);
-        $result =& $this->elements;
-        while (count($parsed) > 1) {
+        $result = & $this->elements;
+        while (count($parsed) > 1)
+        {
             $next = array_shift($parsed);
-            if ( ! isset($result[$next]) || ! is_array($result[$next])) {
+            if (!isset($result[$next]) || !is_array($result[$next]))
+            {
                 $result[$next] = [];
             }
-            $result =& $result[$next];
+            $result = & $result[$next];
         }
         unset($result[array_shift($parsed)]);
         return $this;

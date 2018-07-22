@@ -13,10 +13,10 @@ namespace Phacil\Common\AbstractClass;
  *
  * @author alisson
  */
-abstract class AbstractArrayAccessObject implements \ArrayAccess
-{
+abstract class AbstractArrayAccessObject implements \ArrayAccess {
+
     protected $elements;
-    
+
     public function offsetExists($offset)
     {
         return isset($this->elements[$offset]);
@@ -40,7 +40,7 @@ abstract class AbstractArrayAccessObject implements \ArrayAccess
 
     public function offsetUnset($offset)
     {
-
         unset($this->elements[$offset]);
     }
+
 }

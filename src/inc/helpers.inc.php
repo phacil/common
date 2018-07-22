@@ -9,8 +9,8 @@ use Phacil\Common\Classes\Collection;
  * @param type $bindings
  * @return Raw
  */
-
-function raw($value, $bindings = null){
+function raw($value, $bindings = null)
+{
     return new Raw($value, $bindings);
 }
 
@@ -19,6 +19,7 @@ function raw($value, $bindings = null){
  * @param array $elements
  * @return Collection
  */
-function collection(Array $elements){
+function collection(Array $elements)
+{
     return new Collection($elements);
 }

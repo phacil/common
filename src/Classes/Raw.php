@@ -1,8 +1,9 @@
 <?php
+
 namespace Phacil\Common\Classes;
 
-class Raw
-{
+class Raw {
+
     /**
      * @var string
      */
@@ -20,8 +21,8 @@ class Raw
      */
     public function __construct($value, $bindings = [])
     {
-        $this->value = (string)$value;
-        $this->bindings = (array)$bindings;
+        $this->value = (string) $value;
+        $this->bindings = (array) $bindings;
     }
 
     public function getBindings()
@@ -29,14 +30,16 @@ class Raw
         return $this->bindings;
     }
 
-    public function get(){
-        
+    public function get()
+    {
         $str = $this->value;
-        
-        foreach($this->bindings as $k => $v){
-           $str = str_replace_first('?', $v, $str);
+
+        foreach ($this->bindings as $k => $v)
+        {
+            $str = str_replace_first('?', $v, $str);
         }
-       
+
         return $str;
     }
+
 }
