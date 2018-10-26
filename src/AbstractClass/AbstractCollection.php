@@ -208,7 +208,7 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable {
             }
         } else
         {
-            if ($this->checkType($this->type, $key))
+            if ($this->checkType($this->type, $value))
             {
                 $result[array_shift($parsed)] = $value;
             } else
