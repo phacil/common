@@ -19,7 +19,12 @@ function raw($value, $bindings = null)
  * @param array $elements
  * @return Collection
  */
-function collection(Array $elements)
-{
-    return new Collection($elements);
+
+if (!function_exists('collection')){
+
+	function collection(Array $elements)
+	{
+    		return new Collection($elements);
+	}
+
 }
