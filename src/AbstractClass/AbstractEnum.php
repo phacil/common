@@ -7,6 +7,8 @@
 
 namespace Phacil\Common\AbstractClass;
 
+use Phacil\Common\Classes\Reflective;
+
 /**
  * Base Enum class
  *
@@ -115,7 +117,7 @@ abstract class AbstractEnum {
         $class = get_called_class();
         if (!array_key_exists($class, static::$cache))
         {
-            $reflection = new ReflectionClass($class);
+            $reflection = new Reflection($class);
             static::$cache[$class] = $reflection->getConstants();
         }
 
