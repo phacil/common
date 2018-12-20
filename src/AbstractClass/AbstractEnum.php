@@ -117,7 +117,7 @@ abstract class AbstractEnum {
         $class = get_called_class();
         if (!array_key_exists($class, static::$cache))
         {
-            $reflection = new Reflective($class);
+            $reflection = new \ReflectionClass($class);
             static::$cache[$class] = $reflection->getConstants();
         }
 

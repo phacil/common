@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require '../vendor/autoload.php';
 
 $col = collection(['User'=>['nome'=>'Alisson'],2,3]);
 
