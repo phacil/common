@@ -45,7 +45,7 @@ abstract class AbstractEnum {
     {
         if (!$this->isValidKey($key))
         {
-            throw new UnexpectedValueException("Key '$key' is not part of the enum " . get_called_class());
+            throw new \UnexpectedValueException("Key '$key' is not part of the enum " . get_called_class());
         }
         $this->key = $key;
     }
