@@ -19,3 +19,16 @@ pr($col->getElements());
 //foreach($Col as $elem):
 //    echo $elem;
 //endforeach;
+
+class Enum extends \Phacil\Common\AbstractClass\AbstractEnum{
+
+    const TESTE = 'teste';
+    const TESTE2 = 'teste2';
+
+}
+echo '<pre>';
+print_r(new Enum('TESTE'));
+print_r(Enum::toArray());
+print_r(Enum::toList());
+print_r(Enum::toListKeys());
+print_r(new Enum(2));

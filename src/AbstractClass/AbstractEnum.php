@@ -43,10 +43,18 @@ abstract class AbstractEnum {
      */
     public function __construct($key)
     {
-        if (!$this->isValidKey($key))
+        if(is_int($key)){
+            if(!$this->isValidIndex($key)) {
+                throw new \UnexpectedValueException("Index '$index' is not part of the enum " . get_called_class());
+            }else{
+                $list = $this->toListKeys();
+                $key = $list[$key];
+            }
+        }else if (is_string($key) && !$this->isValidKey($key))
         {
             throw new \UnexpectedValueException("Key '$key' is not part of the enum " . get_called_class());
         }
+
         $this->key = $key;
     }
 
@@ -161,6 +169,20 @@ abstract class AbstractEnum {
     }
 
     /**
+     * Check if is valid enum index
+     *
+     * @param $index
+     *
+     * @return bool
+     */
+    public static function isValidIndex($index)
+    {
+        $array = static::toList();
+
+        return isset($array[$index]);
+    }
+
+    /**
      * Return key for value
      *
      * @param $value
@@ -190,6 +212,23 @@ abstract class AbstractEnum {
         }
 
         throw new \BadMethodCallException("No static method or enum constant '$name' in class " . get_called_class());
+    }
+
+
+    public static function toList()
+    {
+        $array = array_values(self::toArray());
+        array_unshift($array, "phoney");
+        unset($array[0]);
+        return $array;
+    }
+
+    public static function toListKeys()
+    {
+        $array = array_keys(self::toArray());
+        array_unshift($array, "phoney");
+        unset($array[0]);
+        return $array;
     }
 
 }
