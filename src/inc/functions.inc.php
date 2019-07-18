@@ -1,17 +1,13 @@
 <?php
-
-if (!function_exists('pr'))
-{
+namespace phacil{
+  
     function pr($var = array())
     {
         echo "<pre>";
         print_r($var);
         echo "</pre>";
     }
-}
 
-if (!function_exists('debug'))
-{
     function debug($var = array())
     {
         $file = debug_backtrace()[0]['file'];
@@ -22,10 +18,7 @@ if (!function_exists('debug'))
         print_r($var);
         echo "</pre>";
     }
-}
 
-if (!function_exists('array_last'))
-{
     function array_last(Array $array)
     {
         if (!empty($array))
@@ -34,10 +27,7 @@ if (!function_exists('array_last'))
         }
         return false;
     }
-}
 
-if (!function_exists('array_pop_last'))
-{
     function array_pop_last(Array &$array)
     {
         if (!empty($array))
@@ -51,10 +41,7 @@ if (!function_exists('array_pop_last'))
         }
         return false;
     }
-}
 
-if (!function_exists('array_associate_key_value'))
-{
     function array_associate_key_value(Array $array = array())
     {
         $_array = array();
@@ -65,20 +52,12 @@ if (!function_exists('array_associate_key_value'))
         }
         return $_array;
     }
-}
-
-if (!function_exists('stripSlashesDeep'))
-{
 
     function stripSlashesDeep($value)
     {
         $value = is_array($value) ? array_map('stripSlashesDeep', $value) : stripslashes($value);
         return $value;
     }
-}
-
-if (!function_exists('unregisterGlobals'))
-{
 
     function unregisterGlobals()
     {
@@ -97,10 +76,6 @@ if (!function_exists('unregisterGlobals'))
             }
         }
     }
-}
-
-if (!function_exists('str_replace_first'))
-{
 
     function str_replace_first($search, $replace, $subject)
     {
@@ -111,19 +86,11 @@ if (!function_exists('str_replace_first'))
         }
         return false;
     }
-}
-
-if (!function_exists('from_file_json'))
-{
 
     function from_file_json($file)
     {
         return json_decode(file_get_contents($file . '.json'), true);
     }
-}
-
-if (!function_exists('bind_params'))
-{
 
     function bind_params($value, $bindings = null)
     {

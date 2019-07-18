@@ -2,7 +2,7 @@
 
 require '../vendor/autoload.php';
 
-$col = collection(['User'=>['nome'=>'Alisson'],2,3]);
+$col = phacil\collection(['User'=>['nome'=>'Alisson'],2,3]);
 
 //unset($col['User']['nome']);
 
@@ -10,7 +10,7 @@ $col = collection(['User'=>['nome'=>'Alisson'],2,3]);
 
 //isset($col['User']['nome']);
 
-pr($col->getElements());
+phacil\pr($col->getElements());
 //
 //$Col = collection(['User'=>['nome'=>'Alisson'],2,3])->filter(function($item){
 //    return $item > 1;
@@ -26,9 +26,9 @@ class Enum extends \Phacil\Common\AbstractClass\AbstractEnum{
     const TESTE2 = 'teste2';
 
 }
-echo '<pre>';
-print_r(new Enum('TESTE'));
-print_r(Enum::toArray());
-print_r(Enum::toList());
-print_r(Enum::toListKeys());
-print_r(new Enum(2));
+
+phacil\pr(new Enum('TESTE'));
+phacil\pr(Enum::toArray());
+phacil\pr(Enum::toList());
+phacil\pr(Enum::toListKeys());
+phacil\pr(new Enum(2));
