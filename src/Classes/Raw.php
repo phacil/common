@@ -36,7 +36,7 @@ class Raw {
 
         foreach ($this->bindings as $k => $v)
         {
-            $str = str_replace_first('?', $v, $str);
+            $str = \phacil\str_replace_first('?', $v, $str);
         }
 
         return $str;

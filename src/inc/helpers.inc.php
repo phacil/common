@@ -12,7 +12,7 @@ namespace phacil{
 	 */
 	function raw($value, $bindings = null)
 	{
-		return new Raw($value, $bindings);
+		return (new Raw($value, $bindings))->get();
 	}
 
 	/**
