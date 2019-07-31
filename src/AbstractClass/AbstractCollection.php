@@ -75,7 +75,7 @@ abstract class AbstractCollection implements \IteratorAggregate, \Countable {
         $this->checkFinal();
         if ($arg2 && array_key_exists($arg1, $this->elements))
         {
-            throw new Exception('key already exists!');
+            throw new \Exception('key already exists!');
         } else
         {
             $this->set($arg1, $arg2);
